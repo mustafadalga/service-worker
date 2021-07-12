@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -28,4 +28,17 @@
     </script>
 </body>
 
-</html>
+</html> -->
+
+<!DOCTYPE html> An image will appear here in 3 seconds:
+<script>
+    navigator.serviceWorker.register('/service-worker.js')
+        .then(reg => console.log('SW registered!', reg))
+        .catch(err => console.log('Boo!', err));
+
+    setTimeout(() => {
+        const img = new Image();
+        img.src = '/assets/img/animal.png'
+        document.body.appendChild(img);
+    }, 3000);
+</script>
