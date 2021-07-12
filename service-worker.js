@@ -1,9 +1,10 @@
-var CACHE_NAME = 'my-site-cache-v1';
+var CACHE_NAME = 'my-site-cache-v4';
 var urlsToCache = [
-    '/',
-    '/assets/css/main.css',
-    '/assets/img/book.png',
-    '/assets/js/main.js'
+    // '/',
+    // '/assets/css/main.css',
+    // '/assets/img/book.png',
+    // '/assets/js/main.js',
+    '/assets/icons/1.svg'
 ];
 
 
@@ -14,7 +15,7 @@ self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open(CACHE_NAME)
         .then(function(cache) {
-            console.log('Opened cache');
+            console.log('Opened cache..');
             return cache.addAll(urlsToCache);
         })
     );
@@ -30,7 +31,6 @@ self.addEventListener('fetch', function(event) {
             if (response) {
                 return response;
             }
-            console.log(event, 2)
 
             return fetch(event.request).then(response => {
 
@@ -49,6 +49,24 @@ self.addEventListener('fetch', function(event) {
                 return response;
 
             });
+        })
+    );
+});
+
+self.addEventListener('activate', function(event) {
+
+    var cacheAllowlist = ['my-site-cache-v4'];
+
+    event.waitUntil(
+        caches.keys().then(function(cacheNames) {
+            return Promise.all(
+                cacheNames.map(function(cacheName) {
+                    console.log(cacheName, cacheAllowlist.indexOf(cacheName) === -1)
+                    if (cacheAllowlist.indexOf(cacheName) === -1) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
         })
     );
 });
