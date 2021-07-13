@@ -31,6 +31,11 @@
 </html> -->
 
 <!DOCTYPE html> An image will appear here in 3 seconds:
+<style>
+    img{
+        max-width: 300px;
+    }
+</style>
 <script>
     navigator.serviceWorker.register('/service-worker.js')
         .then(reg => console.log('SW registered!', reg))

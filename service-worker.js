@@ -1,4 +1,4 @@
-const expectedCaches = ['static-v2'];
+const expectedCaches = ['static-v3'];
 
 self.addEventListener('install', event => {
     console.log('V2 installing…');
@@ -7,7 +7,7 @@ self.addEventListener('install', event => {
 
     // cache a horse SVG into a new cache, static-v2
     event.waitUntil(
-        caches.open(expectedCaches[0]).then(cache => cache.add('/assets/img/animal.png'))
+        caches.open(expectedCaches[0]).then(cache => cache.add('/assets/img/cat.jpeg'))
     );
 });
 
@@ -32,11 +32,10 @@ self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
 
     // serve the horse SVG from the cache if the request is
-    // same-origin and the path is '/dog.svg'
-
+    // same-origin and the path is '/dog.s
     console.log(url)
     if (url.origin == location.origin && url.pathname == '/assets/img/people.png') {
-        event.respondWith(caches.match('/assets/img/animal.png'));
+        event.respondWith(caches.match('/assets/img/cat.jpeg'));
     }
 });
 
