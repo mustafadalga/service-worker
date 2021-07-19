@@ -41,6 +41,8 @@ function checkLatestUpdates(registration){
 }
 
 function runUpdate(registration) {
+  console.log("runUpdate")
+
   registration.update()
   if (!registration.waiting)return ;
   newServiceWorker = registration.waiting;
