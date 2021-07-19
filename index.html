@@ -1,49 +1,22 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>PWA</title>
     <link rel="stylesheet" href="assets/css/main.css">
-    <script src="assets/js/main.js"></script>
 </head>
 
 <body>
+    <div class="new-version-toast hide">
+        A new version of this app is available.Click here to update!
+    </div>
+ 
 
-    <img src="assets/img/book.png" alt="">
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-                    // Registration was successful
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function(err) {
-                    // registration failed :(
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-    </script>
+<script src="./assets/js/service-worker-main.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
 
-</html> -->
-
-<!DOCTYPE html> An image will appear here in 3 seconds:
-<style>
-    img{
-        max-width: 300px;
-    }
-</style>
-<script>
-    navigator.serviceWorker.register('/service-worker.js')
-        .then(reg => console.log('SW registered!', reg))
-        .catch(err => console.log('Boo!', err));
-
-    setTimeout(() => {
-        const img = new Image();
-        img.src = '/assets/img/people.png'
-        document.body.appendChild(img);
-    }, 3000);
-</script>
+</html> 

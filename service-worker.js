@@ -1,42 +1,62 @@
-const expectedCaches = ['static-v3'];
+const cacheVersion = 'v1.0.0';
 
 self.addEventListener('install', event => {
-    console.log('V2 installing…');
-    self.skipWaiting(); //Skip the waiting phase
-
-
-    // cache a horse SVG into a new cache, static-v2
+    console.log('installing…');
     event.waitUntil(
-        caches.open(expectedCaches[0]).then(cache => cache.add('/assets/img/cat.jpeg'))
+       caches.open(cacheVersion).then(cache => cache.add('/assets/js/main.js'))
     );
 });
 
 self.addEventListener('activate', event => {
-    // delete any caches that aren't in expectedCaches
-    // which will get rid of static-v1
     event.waitUntil(
         caches.keys().then(keys => Promise.all(
             keys.map(key => {
                 console.log(key)
-                if (!expectedCaches.includes(key)) {
+                if (!cacheVersion.includes(key)) {
                     return caches.delete(key);
                 }
             })
-        )).then(() => {
-            console.log('V2 now ready to handle fetches!');
-        })
+        ))
     );
 });
 
-self.addEventListener('fetch', event => {
-    const url = new URL(event.request.url);
 
-    // serve the horse SVG from the cache if the request is
-    // same-origin and the path is '/dog.s
-    console.log(url)
-    if (url.origin == location.origin && url.pathname == '/assets/img/people.png') {
-        event.respondWith(caches.match('/assets/img/cat.jpeg'));
+
+// https://developers.google.com/web/fundamentals/primers/service-workers#cache_and_return_requests
+
+
+
+self.addEventListener('fetch',  async (event) =>{
+  const url = new URL(event.request.url);
+  if (url.origin == location.origin && url.pathname == '/assets/js/main.js') {
+
+    // if cache data has , return cache data
+    const cacheResponse=event.respondWith(caches.match('/assets/js/main.js'));
+    console.log(cacheResponse,11111)
+    if (cacheResponse)return cacheResponse;//if has cache data
+
+    const response=await fetch(event.request);
+    if(!response || response.status !== 200 || response.type !== 'basic') {
+      return response;
     }
-});
 
-self.caches.c
+    //Added response to cache and return response
+    var responseToCache = response.clone();
+    const cache=await caches.open(cacheVersion);
+    cache.put(event.request,responseToCache);
+    return response;
+
+  }
+})
+
+
+
+  self.addEventListener('message', function (event) {
+    if (event.data.action === 'skipWaiting') {
+      console.log("yüklendi")
+      self.skipWaiting();
+    }
+  });
+
+
+  
