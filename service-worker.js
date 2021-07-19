@@ -1,4 +1,4 @@
-const cacheVersion = 'v1.0.4';
+const cacheVersion = 'v1.0.5';
 
 self.addEventListener('install', event => {
     console.log('installing…');
@@ -23,8 +23,6 @@ self.addEventListener('activate', event => {
 
 
 // https://developers.google.com/web/fundamentals/primers/service-workers#cache_and_return_requests
-
-
 
 self.addEventListener('fetch',  async (event) =>{
   const url = new URL(event.request.url);
