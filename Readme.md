@@ -1,1 +1,2 @@
-https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle
+#### Service Worker - Example of showing the "new version available" warning
+
