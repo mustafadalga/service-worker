@@ -1,9 +1,9 @@
-const cacheVersion = 'v1.0.11';
+const cacheVersion = 'v1.0.02';
 
 self.addEventListener('install', event => {
     console.log('installing…');
     event.waitUntil(
-       caches.open(cacheVersion).then(cache => cache.add('/assets/js/main.js'))
+        caches.open(cacheVersion).then(cache => cache.add('/assets/js/main.js'))
     );
 });
 
@@ -30,39 +30,39 @@ self.addEventListener('fetch', function(event) {
 
         event.respondWith(
             caches.match(event.request)
-              .then(function(response) {
+            .then(function(response) {
                 // Cache hit - return response
                 if (response) {
-                  return response;
-                }
-        
-                return fetch(event.request).then(
-                  function(response) {
-                    // Check if we received a valid response
-                    if(!response || response.status !== 200 || response.type !== 'basic') {
-                      return response;
-                    }
-        
-                    // IMPORTANT: Clone the response. A response is a stream
-                    // and because we want the browser to consume the response
-                    // as well as the cache consuming the response, we need
-                    // to clone it so we have two streams.
-                    var responseToCache = response.clone();
-        
-                    caches.open(cacheVersion)
-                      .then(function(cache) {
-                        cache.put(event.request, responseToCache);
-                      });
-        
                     return response;
-                  }
+                }
+
+                return fetch(event.request).then(
+                    function(response) {
+                        // Check if we received a valid response
+                        if (!response || response.status !== 200 || response.type !== 'basic') {
+                            return response;
+                        }
+
+                        // IMPORTANT: Clone the response. A response is a stream
+                        // and because we want the browser to consume the response
+                        // as well as the cache consuming the response, we need
+                        // to clone it so we have two streams.
+                        var responseToCache = response.clone();
+
+                        caches.open(cacheVersion)
+                            .then(function(cache) {
+                                cache.put(event.request, responseToCache);
+                            });
+
+                        return response;
+                    }
                 );
-              })
-            );
+            })
+        );
 
     }
-   
-  });
+
+});
 
 
 // self.addEventListener('fetch',  async (event) =>{
@@ -90,12 +90,9 @@ self.addEventListener('fetch', function(event) {
 
 
 
-  self.addEventListener('message', function (event) {
+self.addEventListener('message', function(event) {
     if (event.data.action === 'skipWaiting') {
-      console.log("yüklendi")
-      self.skipWaiting();
+        console.log("yüklendi")
+        self.skipWaiting();
     }
-  });
-
-
-  
+});
